@@ -1,0 +1,20 @@
+repo_name: torrentpier/.github
+report_id: b9e182be1d86ace4efb74da25d5f534d
+version: 0.1
+repo_type: Public
+timestamp: '2024-06-18T07:41:32+00:00'
+requested_by: belomaxorka
+provider: github
+branch: main
+detected_tools_count: 1
+tools:
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/torrentpier/.github
+  detection_source: Repo Metadata
