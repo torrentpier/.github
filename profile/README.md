@@ -1,3 +1,5 @@
+<p align="center"><a href="https://torrentpier.com"><img src="https://torrentpier.com/styles/default/xenforo/bull-logo.svg" width="400px" alt="TorrentPier" /></a></p>
+
 ## 👋 Hi there
 
 Welcome to the TorrentPier organization 🐂. All your contributions are welcome 👨‍💻.
@@ -8,7 +10,7 @@ Current major version with full support is v2.4.*
 
 |                                                 Version                                                 |  Released  |  EOL   | Only critical bug fixes | Full |
 |:-------------------------------------------------------------------------------------------------------:|:----------:|:------:|:-----------------------:|:----:|
-|                      [v2.4.3](https://github.com/torrentpier/torrentpier/releases)                      | 2024/06/09 |        |                         |  ✅   |
+|                      [v2.4.4](https://github.com/torrentpier/torrentpier/releases)                      | 2024/07/22 |        |                         |  ✅   |
 | [v2.1.5-2024.07 [Final v5]](https://github.com/torrentpier/torrentpier-lts/releases/tag/v2.1.5-2024.07) | 2024/06/27 |        |            ✅            |      |
 |                [v2.3.*](https://github.com/torrentpier/torrentpier/releases/tag/v2.3.1)                 | 2023/03/18 | YES 💀 |                         |      |
 |                [v2.2.*](https://github.com/torrentpier/torrentpier/releases/tag/v2.2.3)                 | 2017/08/08 | YES 💀 |                         |      |
