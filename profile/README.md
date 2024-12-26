@@ -4,6 +4,12 @@
 
 Welcome to the TorrentPier organization 🐂. All your contributions are welcome 👨‍💻.
 
+## 🌐 Helpful links
+
+- [Our forum](https://torrentpier.com/)
+- [Our Download Center](https://get-torrentpier.duckdns.org/)
+- [TorrentPier Demo](https://torrentpier.duckdns.org/)
+
 ## 📊 Supported versions
 
 Current major version with full support is v2.4.*
