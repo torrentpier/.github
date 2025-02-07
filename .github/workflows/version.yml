@@ -1,4 +1,4 @@
-name: Update TorrentPier latest version
+name: Update versions list in README
 
 on:
   schedule:
@@ -15,8 +15,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get latest TorrentPier release
-        id: get-latest-release
+      - name: Get latest TorrentPier & TorrentPier LTS releases
         run: |
           # Main repository
           REPO="torrentpier/torrentpier"
@@ -50,7 +49,7 @@ jobs:
           echo "LTS_RELEASE_DATE=$LTS_RELEASE_DATE" >> $GITHUB_ENV
           echo "LTS_RELEASE_URL=$LTS_RELEASE_URL" >> $GITHUB_ENV
 
-      - name: Update TorrentPier versions in README.md
+      - name: Update versions list in README.md
         run: |
           README_CONTENT=$(cat profile/README.md)
           NEW_ROW="| [${{ env.LATEST_RELEASE }}](${{ env.RELEASE_URL }}) | ${{ env.RELEASE_DATE }} | | | ✅ |"
@@ -80,6 +79,6 @@ jobs:
             echo "No changes to commit."
           else
             git add profile/README.md
-            git commit -m "Update README with latest TorrentPier version: ${{ env.LATEST_RELEASE }}"
+            git commit -m "Update versions list in README"
             git push origin HEAD
           fi
