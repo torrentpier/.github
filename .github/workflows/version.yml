@@ -34,7 +34,7 @@ jobs:
       - name: Update TorrentPier version in README.md
         run: |
           README_CONTENT=$(cat profile/README.md)
-          NEW_ROW="| [$env.LATEST_RELEASE]($env.RELEASE_URL) | $env.RELEASE_DATE | | | ✅ |"
+          NEW_ROW="| [${{ env.LATEST_RELEASE }}](${{ env.LATEST_RELEASE }}) | ${{ env.LATEST_RELEASE }} | | | ✅ |"
 
           TABLE_START=$(echo "$README_CONTENT" | grep -n '^|\s*Version\s*|\s*Released\s*|\s*EOL\s*|\s*Only critical bug fixes\s*|\s*Full\s*|' | cut -d':' -f1)
           if [ -z "$TABLE_START" ]; then
