@@ -19,8 +19,8 @@ jobs:
         id: get-latest-release
         run: |
           REPO="torrentpier/torrentpier"
-          LATEST_RELEASE=$(curl -s https://api.github.com/repos/$REPO/releases | jq -r '.[] | select(.prerelease == true or .prerelease == false) | sort_by(.published_at) | last | .tag_name')
-          RELEASE_DATE=$(curl -s https://api.github.com/repos/$REPO/releases | jq -r '.[] | select(.prerelease == true or .prerelease == false) | sort_by(.published_at) | last | .published_at' | cut -d'T' -f1)
+          LATEST_RELEASE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.tag_name')
+          RELEASE_DATE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.published_at' | cut -d'T' -f1)
 
           echo "Latest release version: $LATEST_RELEASE"
           echo "Release date: $RELEASE_DATE"
