@@ -1,0 +1,28 @@
+name: Update TorrentPier latest version
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  version:
+    name: Changelog generation
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get latest TorrentPier release
+        id: get-latest-release
+        run: |
+          REPO="OWNER/REPO"
+          LATEST_RELEASE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.tag_name')
+          RELEASE_DATE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.published_at' | cut -d'T' -f1)
+
+          echo "Latest release version: $LATEST_RELEASE"
+          echo "Release date: $RELEASE_DATE"
+          echo "LATEST_RELEASE=$LATEST_RELEASE" >> $GITHUB_ENV
+          echo "RELEASE_DATE=$RELEASE_DATE" >> $GITHUB_ENV
