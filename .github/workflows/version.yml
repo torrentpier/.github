@@ -7,7 +7,7 @@ on:
 
 jobs:
   version:
-    name: Changelog generation
+    name: Update versions list
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
