@@ -21,11 +21,20 @@ jobs:
           REPO="torrentpier/torrentpier"
           LATEST_RELEASE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.tag_name')
           RELEASE_DATE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.published_at' | cut -d'T' -f1)
+          RELEASE_URL="https://github.com/$REPO/releases/tag/$LATEST_RELEASE"
 
           echo "Latest release version: $LATEST_RELEASE"
           echo "Release date: $RELEASE_DATE"
+          echo "Release URL: $RELEASE_URL"
+
           echo "LATEST_RELEASE=$LATEST_RELEASE" >> $GITHUB_ENV
           echo "RELEASE_DATE=$RELEASE_DATE" >> $GITHUB_ENV
+          echo "RELEASE_URL=$RELEASE_URL" >> $GITHUB_ENV
+
+      - name: Update TorrentPier version in README.md
+        run: |
+          README_CONTENT=$(cat README.md)
+          NEW_ROW="| [$env.latest_release]($env.release_url) | $env.release_date | | | ✅ |
 
       - name: Commit changes
         run: |
