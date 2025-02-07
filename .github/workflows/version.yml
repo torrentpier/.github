@@ -1,9 +1,9 @@
 name: Update TorrentPier latest version
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   version:
