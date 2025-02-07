@@ -18,7 +18,7 @@ jobs:
       - name: Get latest TorrentPier release
         id: get-latest-release
         run: |
-          REPO="OWNER/REPO"
+          REPO="torrentpier/torrentpier"
           LATEST_RELEASE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.tag_name')
           RELEASE_DATE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.published_at' | cut -d'T' -f1)
 
