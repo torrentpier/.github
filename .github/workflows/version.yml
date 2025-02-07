@@ -26,3 +26,15 @@ jobs:
           echo "Release date: $RELEASE_DATE"
           echo "LATEST_RELEASE=$LATEST_RELEASE" >> $GITHUB_ENV
           echo "RELEASE_DATE=$RELEASE_DATE" >> $GITHUB_ENV
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          if git diff --quiet profile/README.md; then
+            echo "No changes to commit."
+          else
+            git add profile/README.md
+            git commit -m "Update README with latest TorrentPier version: ${{ env.LATEST_RELEASE }}"
+            git push origin HEAD
+          fi
