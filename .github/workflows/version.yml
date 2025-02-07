@@ -44,7 +44,7 @@ jobs:
 
           FIRST_ROW_LINE=$((TABLE_START + 2))
           UPDATED_README=$(echo "$README_CONTENT" | awk -v row="$NEW_ROW" -v line="$FIRST_ROW_LINE" 'NR == line {print row} NR != line {print}')
-          echo "$UPDATED_README" > README.md
+          echo "$UPDATED_README" > profile/README.md
 
       - name: Commit changes
         run: |
