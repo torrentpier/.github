@@ -36,9 +36,9 @@ jobs:
 
           # LTS repository
           LTS_REPO="torrentpier/torrentpier-lts"
-          LTS_LATEST_RELEASE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.tag_name')
-          LTS_RELEASE_DATE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.published_at' | cut -d'T' -f1)
-          LTS_RELEASE_URL="https://github.com/$REPO/releases/tag/$LTS_LATEST_RELEASE"
+          LTS_LATEST_RELEASE=$(curl -s https://api.github.com/repos/$LTS_REPO/releases/latest | jq -r '.tag_name')
+          LTS_RELEASE_DATE=$(curl -s https://api.github.com/repos/$LTS_REPO/releases/latest | jq -r '.published_at' | cut -d'T' -f1)
+          LTS_RELEASE_URL="https://github.com/$LTS_REPO/releases/tag/$LTS_LATEST_RELEASE"
 
           echo "----------------------------------------"
           echo "LTS release version: $LTS_LATEST_RELEASE"
