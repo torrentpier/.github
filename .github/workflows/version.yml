@@ -33,8 +33,8 @@ jobs:
 
       - name: Update TorrentPier version in README.md
         run: |
-          README_CONTENT=$(cat README.md)
-          NEW_ROW="| [$env.latest_release]($env.release_url) | $env.release_date | | | ✅ |
+          README_CONTENT=$(cat profile/README.md)
+          NEW_ROW="| [$env.LATEST_RELEASE]($env.RELEASE_URL) | $env.RELEASE_DATE | | | ✅ |
 
       - name: Commit changes
         run: |
