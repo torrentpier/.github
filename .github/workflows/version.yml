@@ -55,7 +55,7 @@ jobs:
           NEW_ROW="| [${{ env.LATEST_RELEASE }}](${{ env.RELEASE_URL }}) | ${{ env.RELEASE_DATE }} | | | ✅ |"
           LTS_NEW_ROW="| [${{ env.LTS_LATEST_RELEASE }}](${{ env.LTS_RELEASE_URL }}) | ${{ env.LTS_RELEASE_DATE }} | | ✅ | |"
 
-          TABLE_START=$(echo "$README_CONTENT" | grep -n '^|\s*Version\s*|\s*Released\s*|\s*EOL\s*|\s*Only critical bug fixes\s*|\s*Full\s*|' | cut -d':' -f1)
+          TABLE_START=$(echo "$README_CONTENT" | grep -n '^|\s*Version\s*|\s*Released\s*|\s*EOL\s*|\s*Only critical bug fixes (LTS)\s*|\s*Full\s*|' | cut -d':' -f1)
           if [ -z "$TABLE_START" ]; then
             echo "Table not found in README.md"
             exit 1
