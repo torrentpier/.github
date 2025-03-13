@@ -15,7 +15,7 @@ Welcome to the TorrentPier organization 🐂. All your contributions are welcome
 
 Current major version with full support is v2.4.*
 
-|                                                 Version                                                  |  Released  |  EOL   | Only critical bug fixes | Full |
+|                                                 Version                                                  |  Released  |  EOL   | Only critical bug fixes (LTS) | Full |
 |:--------------------------------------------------------------------------------------------------------:|:----------:|:------:|:-----------------------:|:----:|
 | [v2.4.4](https://github.com/torrentpier/torrentpier/releases/tag/v2.4.4) | 2024-07-22 | | | ✅ |
 | [v2.1.5-2024.12](https://github.com/torrentpier/torrentpier-lts/releases/tag/v2.1.5-2024.12) | 2024-12-26 | | ✅ | |
