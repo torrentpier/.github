@@ -9,7 +9,7 @@ Welcome to the TorrentPier organization 🐂. All your contributions are welcome
 - [Our forum](https://torrentpier.com/)
 - [Our Download Center](https://get-torrentpier.duckdns.org/)
 - [TorrentPier Demo](https://torrentpier.duckdns.org/)
-- [TorrentPier nightly builds](https://nightly.link/torrentpier/torrentpier/workflows/ci/master/TorrentPier)
+- [TorrentPier nightly builds](https://nightly.link/torrentpier/torrentpier/workflows/ci/master/TorrentPier-master)
 
 ## 📊 Supported versions
 
