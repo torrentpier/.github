@@ -136,7 +136,7 @@ jobs:
           LTS_NEW_ROW="| [$LTS_LATEST_RELEASE]($LTS_RELEASE_URL) | $LTS_RELEASE_DATE | | ✅ | |"
 
           # Find table header (assuming format: | Version | Released | EOL | LTS | Current |)
-          TABLE_START=$(echo "$README_CONTENT" | grep -n -E '^\|\s*Version\s*\|.*\|\s*
+          TABLE_START=$(echo "$README_CONTENT" | grep -n -E '^\|\s*Version\s*\|.*\|')
           
           if [ -z "$TABLE_START" ]; then
             echo "Version table not found in README.md"
