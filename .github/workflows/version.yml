@@ -123,17 +123,17 @@ jobs:
 
           # Create new table rows
           # Row 1: Latest version (v3.* - current/master) - marked as Current
-          MAIN_NEW_ROW="| [${{ env.LATEST_RELEASE }}](${{ env.RELEASE_URL }}) | ${{ env.RELEASE_DATE }} | | | ✅ |"
+          MAIN_NEW_ROW="| [$LATEST_RELEASE]($RELEASE_URL) | $RELEASE_DATE | | | ✅ |"
           
           # Row 2: Latest v2.4.* version - marked as maintenance/legacy support
-          if [ -n "${{ env.V24_LATEST_RELEASE }}" ]; then
-            V24_NEW_ROW="| [${{ env.V24_LATEST_RELEASE }}](${{ env.V24_RELEASE_URL }}) | ${{ env.V24_RELEASE_DATE }} | | 🔧 | |"
+          if [ -n "$V24_LATEST_RELEASE" ]; then
+            V24_NEW_ROW="| [$V24_LATEST_RELEASE]($V24_RELEASE_URL) | $V24_RELEASE_DATE | | 🔧 | |"
           else
             V24_NEW_ROW="| No v2.4.* releases found | - | | | |"
           fi
           
           # Row 3: LTS version - marked as LTS
-          LTS_NEW_ROW="| [${{ env.LTS_LATEST_RELEASE }}](${{ env.LTS_RELEASE_URL }}) | ${{ env.LTS_RELEASE_DATE }} | | ✅ | |"
+          LTS_NEW_ROW="| [$LTS_LATEST_RELEASE]($LTS_RELEASE_URL) | $LTS_RELEASE_DATE | | ✅ | |"
 
           # Find table header (assuming format: | Version | Released | EOL | LTS | Current |)
           TABLE_START=$(echo "$README_CONTENT" | grep -n -E '^\|\s*Version\s*\|.*\|\s*
@@ -186,9 +186,9 @@ jobs:
             # Create detailed commit message
             COMMIT_MSG="Update versions list in README
           
-            - Latest: ${{ env.LATEST_RELEASE }} (${{ env.RELEASE_DATE }})
-            - v2.4.*: ${{ env.V24_LATEST_RELEASE || 'None found' }} (${{ env.V24_RELEASE_DATE || '-' }})
-            - LTS: ${{ env.LTS_LATEST_RELEASE }} (${{ env.LTS_RELEASE_DATE }})"
+            - Latest: $LATEST_RELEASE ($RELEASE_DATE)
+            - v2.4.*: ${V24_LATEST_RELEASE:-'None found'} (${V24_RELEASE_DATE:-'-'})
+            - LTS: $LTS_LATEST_RELEASE ($LTS_RELEASE_DATE)"
           
             git commit -m "$COMMIT_MSG"
             git push origin HEAD
