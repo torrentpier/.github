@@ -127,7 +127,7 @@ jobs:
           
           # Row 2: Latest v2.4.* version - marked as maintenance/legacy support
           if [ -n "$V24_LATEST_RELEASE" ]; then
-            V24_NEW_ROW="| [$V24_LATEST_RELEASE]($V24_RELEASE_URL) | $V24_RELEASE_DATE | | 🔧 | |"
+            V24_NEW_ROW="| [$V24_LATEST_RELEASE]($V24_RELEASE_URL) | $V24_RELEASE_DATE | | ✅ | |"
           else
             V24_NEW_ROW="| No v2.4.* releases found | - | | | |"
           fi
