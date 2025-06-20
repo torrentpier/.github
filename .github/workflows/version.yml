@@ -17,7 +17,6 @@ jobs:
 
       - name: Get latest releases from TorrentPier repositories
         run: |
-          # Function to get release info from specific branch
           get_release_info() {
             local repo=$1
             local branch=$2
