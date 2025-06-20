@@ -1,148 +1,84 @@
 name: Update versions list in README
+
 on:
   schedule:
     - cron: '0 0 * * *'
   workflow_dispatch:
+
 jobs:
   version:
     name: Update versions list
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Get latest releases from TorrentPier repositories
+      - name: Get latest TorrentPier & TorrentPier LTS releases
         run: |
-          get_release_info() {
-            local repo="$1"
-            local branch="$2"
-            local tag_filter="$3"
-
-            if [ -n "$tag_filter" ]; then
-              release_data=$(curl -s "https://api.github.com/repos/$repo/releases"  \
-                | jq -r --arg pattern "$tag_filter" '
-                  .[] | select(.tag_name | test($pattern)) |
-                  select(.prerelease == false and .draft == false) |
-                  [.tag_name, .published_at, .html_url, .target_commitish] | @tsv' | head -1)
-            elif [ -n "$branch" ]; then
-              release_data=$(curl -s "https://api.github.com/repos/$repo/releases"  \
-                | jq -r --arg branch "$branch" '
-                  .[] | select(.target_commitish == $branch) |
-                  select(.prerelease == false and .draft == false) |
-                  [.tag_name, .published_at, .html_url, .target_commitish] | @tsv' | head -1)
-            else
-              release_data=$(curl -s "https://api.github.com/repos/$repo/releases/latest"  \
-                | jq -r '[.tag_name, .published_at, .html_url, .target_commitish] | @tsv')
-            fi
-
-            if [ -n "$release_data" ]; then
-              echo "$release_data" | IFS=$'\t' read -r tag date url branch_name
-              formatted_date=$(echo "$date" | cut -d'T' -f1)
-              echo "TAG=$tag"
-              echo "DATE=$formatted_date"
-              echo "URL=$url"
-              echo "BRANCH=$branch_name"
-              return 0
-            else
-              echo "No release found for $repo"
-              return 1
-            fi
-          }
-
-          # Main repository (latest excluding v2.4.*)
-          echo "=== Getting latest release from torrentpier/torrentpier (excluding v2.4.*) ==="
+          # Main repository
           REPO="torrentpier/torrentpier"
-          MAIN_INFO=$(get_release_info "$REPO" "" "^(?!v2\.4).*")
-          if [ $? -eq 0 ]; then
-            LATEST_RELEASE=$(echo "$MAIN_INFO" | grep "^TAG=" | cut -d'=' -f2)
-            RELEASE_DATE=$(echo "$MAIN_INFO" | grep "^DATE=" | cut -d'=' -f2)
-            RELEASE_URL=$(echo "$MAIN_INFO" | grep "^URL=" | cut -d'=' -f2)
-            echo "LATEST_RELEASE=$LATEST_RELEASE" >> $GITHUB_ENV
-            echo "RELEASE_DATE=$RELEASE_DATE" >> $GITHUB_ENV
-            echo "RELEASE_URL=$RELEASE_URL" >> $GITHUB_ENV
-          else
-            echo "Failed to get main release info"
-            exit 1
-          fi
+          LATEST_RELEASE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.tag_name')
+          RELEASE_DATE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.published_at' | cut -d'T' -f1)
+          RELEASE_URL="https://github.com/$REPO/releases/tag/$LATEST_RELEASE"
 
-          echo ""
-          echo "=== Getting latest v2.4.* release from torrentpier/torrentpier ==="
-          V24_INFO=$(get_release_info "$REPO" "" "^v2\\.4\\.")
-          if [ $? -eq 0 ]; then
-            V24_LATEST_RELEASE=$(echo "$V24_INFO" | grep "^TAG=" | cut -d'=' -f2)
-            V24_RELEASE_DATE=$(echo "$V24_INFO" | grep "^DATE=" | cut -d'=' -f2)
-            V24_RELEASE_URL=$(echo "$V24_INFO" | grep "^URL=" | cut -d'=' -f2)
-            echo "V24_LATEST_RELEASE=$V24_LATEST_RELEASE" >> $GITHUB_ENV
-            echo "V24_RELEASE_DATE=$V24_RELEASE_DATE" >> $GITHUB_ENV
-            echo "V24_RELEASE_URL=$V24_RELEASE_URL" >> $GITHUB_ENV
-          else
-            echo "V24_LATEST_RELEASE=Not found" >> $GITHUB_ENV
-            echo "V24_RELEASE_DATE=-" >> $GITHUB_ENV
-            echo "V24_RELEASE_URL=" >> $GITHUB_ENV
-          fi
+          echo "----------------------------------------"
+          echo "Latest release version: $LATEST_RELEASE"
+          echo "Release date: $RELEASE_DATE"
+          echo "Release URL: $RELEASE_URL"
+          echo "----------------------------------------"
 
-          echo ""
-          echo "=== Getting latest LTS release from torrentpier/torrentpier-lts ==="
+          echo "LATEST_RELEASE=$LATEST_RELEASE" >> $GITHUB_ENV
+          echo "RELEASE_DATE=$RELEASE_DATE" >> $GITHUB_ENV
+          echo "RELEASE_URL=$RELEASE_URL" >> $GITHUB_ENV
+
+          # LTS repository
           LTS_REPO="torrentpier/torrentpier-lts"
-          LTS_INFO=$(get_release_info "$LTS_REPO")
-          if [ $? -eq 0 ]; then
-            LTS_LATEST_RELEASE=$(echo "$LTS_INFO" | grep "^TAG=" | cut -d'=' -f2)
-            LTS_RELEASE_DATE=$(echo "$LTS_INFO" | grep "^DATE=" | cut -d'=' -f2)
-            LTS_RELEASE_URL=$(echo "$LTS_INFO" | grep "^URL=" | cut -d'=' -f2)
-            echo "LTS_LATEST_RELEASE=$LTS_LATEST_RELEASE" >> $GITHUB_ENV
-            echo "LTS_RELEASE_DATE=$LTS_RELEASE_DATE" >> $GITHUB_ENV
-            echo "LTS_RELEASE_URL=$LTS_RELEASE_URL" >> $GITHUB_ENV
-          else
-            echo "Failed to get LTS release info"
-            exit 1
-          fi
+          LTS_LATEST_RELEASE=$(curl -s https://api.github.com/repos/$LTS_REPO/releases/latest | jq -r '.tag_name')
+          LTS_RELEASE_DATE=$(curl -s https://api.github.com/repos/$LTS_REPO/releases/latest | jq -r '.published_at' | cut -d'T' -f1)
+          LTS_RELEASE_URL="https://github.com/$LTS_REPO/releases/tag/$LTS_LATEST_RELEASE"
 
-      - name: Update README.md
+          echo "----------------------------------------"
+          echo "LTS release version: $LTS_LATEST_RELEASE"
+          echo "LTS release date: $LTS_RELEASE_DATE"
+          echo "LTS release URL: $LTS_RELEASE_URL"
+          echo "----------------------------------------"
+
+          echo "LTS_LATEST_RELEASE=$LTS_LATEST_RELEASE" >> $GITHUB_ENV
+          echo "LTS_RELEASE_DATE=$LTS_RELEASE_DATE" >> $GITHUB_ENV
+          echo "LTS_RELEASE_URL=$LTS_RELEASE_URL" >> $GITHUB_ENV
+
+      - name: Update versions list in README.md
         run: |
-          if [ ! -f profile/README.md ]; then
-            echo "ERROR: README.md not found!"
+          README_CONTENT=$(cat profile/README.md)
+          NEW_ROW="| [${{ env.LATEST_RELEASE }}](${{ env.RELEASE_URL }}) | ${{ env.RELEASE_DATE }} | | | ✅ |"
+          LTS_NEW_ROW="| [${{ env.LTS_LATEST_RELEASE }}](${{ env.LTS_RELEASE_URL }}) | ${{ env.LTS_RELEASE_DATE }} | | ✅ | |"
+
+          TABLE_START=$(echo "$README_CONTENT" | grep -n '^|\s*Version\s*|\s*Released\s*|\s*EOL\s*|\s*Only critical bug fixes (LTS)\s*|\s*Full\s*|' | cut -d':' -f1)
+          if [ -z "$TABLE_START" ]; then
+            echo "Table not found in README.md"
             exit 1
           fi
 
-          TABLE_START_LINE=$(grep -n -E '^\\|\\s*Version\\s*\\|' profile/README.md | cut -d: -f1)
-          if [ -z "$TABLE_START_LINE" ]; then
-            echo "ERROR: Table header not found in README.md"
-            exit 1
-          fi
+          # Update version for main repository
+          FIRST_ROW_LINE=$((TABLE_START + 2))
+          UPDATED_README=$(echo "$README_CONTENT" | awk -v row="$NEW_ROW" -v line="$FIRST_ROW_LINE" 'NR == line {print row} NR != line {print}')
 
-          LINE_1=$((TABLE_START_LINE + 2))
-          LINE_2=$((TABLE_START_LINE + 3))
-          LINE_3=$((TABLE_START_LINE + 4))
+          # Update version for LTS repository
+          LTS_FIRST_ROW_LINE=$((TABLE_START + 3))
+          COMPLETED_README=$(echo "$UPDATED_README" | awk -v row="$LTS_NEW_ROW" -v line="$LTS_FIRST_ROW_LINE" 'NR == line {print row} NR != line {print}')
 
-          sed -i "${LINE_1}s/.*/| [$LATEST_RELEASE]($RELEASE_URL) | $RELEASE_DATE | | | ✅ |/" profile/README.md
-          if [ -n "$V24_LATEST_RELEASE" ] && [ "$V24_LATEST_RELEASE" != "Not found" ]; then
-            sed -i "${LINE_2}s/.*/| [$V24_LATEST_RELEASE]($V24_RELEASE_URL) | $V24_RELEASE_DATE | | ✅ | |/" profile/README.md
-          else
-            sed -i "${LINE_2}s/.*/| No v2.4.* releases found | - | | | |/" profile/README.md
-          fi
-          sed -i "${LINE_3}s/.*/| [$LTS_LATEST_RELEASE]($LTS_RELEASE_URL) | $LTS_RELEASE_DATE | | ✅ | |/" profile/README.md
+          echo "$COMPLETED_README" > profile/README.md
 
-          echo "✅ README.md updated successfully"
-
-      - name: Commit and push changes
+      - name: Commit changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-
           if git diff --quiet profile/README.md; then
-            echo "No changes detected"
+            echo "No changes to commit."
           else
             git add profile/README.md
-            V24_VERSION="${{ env.V24_LATEST_RELEASE }}"
-            V24_DATE="${{ env.V24_RELEASE_DATE }}"
-            [ -z "$V24_VERSION" ] && V24_VERSION="None found" && V24_DATE="-"
-            COMMIT_MSG="Update versions list in README
-            - Latest: ${{ env.LATEST_RELEASE }} (${{ env.RELEASE_DATE }})
-            - v2.4.*: $V24_VERSION ($V24_DATE)
-            - LTS: ${{ env.LTS_LATEST_RELEASE }} (${{ env.LTS_RELEASE_DATE }})"
-            git commit -m "$COMMIT_MSG"
+            git commit -m "Update versions list in README"
             git push origin HEAD
-            echo "Changes committed and pushed"
           fi
