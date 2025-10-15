@@ -15,61 +15,35 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get latest TorrentPier & TorrentPier LTS releases
+      - name: Get latest TorrentPier release
         run: |
-          # Main repository
           REPO="torrentpier/torrentpier"
-          LATEST_RELEASE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.tag_name')
-          RELEASE_DATE=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.published_at' | cut -d'T' -f1)
+          RELEASE_DATA=$(curl -s https://api.github.com/repos/$REPO/releases/latest)
+          LATEST_RELEASE=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
+          RELEASE_DATE=$(echo "$RELEASE_DATA" | jq -r '.published_at' | cut -d'T' -f1)
           RELEASE_URL="https://github.com/$REPO/releases/tag/$LATEST_RELEASE"
 
-          echo "----------------------------------------"
-          echo "Latest release version: $LATEST_RELEASE"
-          echo "Release date: $RELEASE_DATE"
-          echo "Release URL: $RELEASE_URL"
-          echo "----------------------------------------"
+          echo "Latest release: $LATEST_RELEASE (Released: $RELEASE_DATE)"
 
           echo "LATEST_RELEASE=$LATEST_RELEASE" >> $GITHUB_ENV
           echo "RELEASE_DATE=$RELEASE_DATE" >> $GITHUB_ENV
           echo "RELEASE_URL=$RELEASE_URL" >> $GITHUB_ENV
 
-          # LTS repository
-          LTS_REPO="torrentpier/torrentpier-lts"
-          LTS_LATEST_RELEASE=$(curl -s https://api.github.com/repos/$LTS_REPO/releases/latest | jq -r '.tag_name')
-          LTS_RELEASE_DATE=$(curl -s https://api.github.com/repos/$LTS_REPO/releases/latest | jq -r '.published_at' | cut -d'T' -f1)
-          LTS_RELEASE_URL="https://github.com/$LTS_REPO/releases/tag/$LTS_LATEST_RELEASE"
-
-          echo "----------------------------------------"
-          echo "LTS release version: $LTS_LATEST_RELEASE"
-          echo "LTS release date: $LTS_RELEASE_DATE"
-          echo "LTS release URL: $LTS_RELEASE_URL"
-          echo "----------------------------------------"
-
-          echo "LTS_LATEST_RELEASE=$LTS_LATEST_RELEASE" >> $GITHUB_ENV
-          echo "LTS_RELEASE_DATE=$LTS_RELEASE_DATE" >> $GITHUB_ENV
-          echo "LTS_RELEASE_URL=$LTS_RELEASE_URL" >> $GITHUB_ENV
-
       - name: Update versions list in README.md
         run: |
-          README_CONTENT=$(cat profile/README.md)
           NEW_ROW="| [${{ env.LATEST_RELEASE }}](${{ env.RELEASE_URL }}) | ${{ env.RELEASE_DATE }} | | | ✅ |"
-          LTS_NEW_ROW="| [${{ env.LTS_LATEST_RELEASE }}](${{ env.LTS_RELEASE_URL }}) | ${{ env.LTS_RELEASE_DATE }} | | ✅ | |"
 
-          TABLE_START=$(echo "$README_CONTENT" | grep -n '^|\s*Version\s*|\s*Released\s*|\s*EOL\s*|\s*Only critical bug fixes (LTS)\s*|\s*Full\s*|' | cut -d':' -f1)
-          if [ -z "$TABLE_START" ]; then
-            echo "Table not found in README.md"
-            exit 1
-          fi
-
-          # Update version for main repository
-          FIRST_ROW_LINE=$((TABLE_START + 2))
-          UPDATED_README=$(echo "$README_CONTENT" | awk -v row="$NEW_ROW" -v line="$FIRST_ROW_LINE" 'NR == line {print row} NR != line {print}')
-
-          # Update version for LTS repository
-          LTS_FIRST_ROW_LINE=$((TABLE_START + 3))
-          COMPLETED_README=$(echo "$UPDATED_README" | awk -v row="$LTS_NEW_ROW" -v line="$LTS_FIRST_ROW_LINE" 'NR == line {print row} NR != line {print}')
-
-          echo "$COMPLETED_README" > profile/README.md
+          # Find table and update first data row
+          awk -v new_row="$NEW_ROW" '
+            /^\| *Version *\|/ { in_table=1; print; next }
+            in_table && /^\| *[-:]+ *\|/ { separator_found=1; print; next }
+            in_table && separator_found && !updated { print new_row; updated=1; next }
+            { print }
+          ' profile/README.md > profile/README.md.tmp
+          
+          mv profile/README.md.tmp profile/README.md
+          
+          echo "✅ Updated version: ${{ env.LATEST_RELEASE }} (${{ env.RELEASE_DATE }})"
 
       - name: Commit changes
         run: |
