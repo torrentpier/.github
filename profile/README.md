@@ -17,7 +17,7 @@ Current major version with full support is v2.8.*
 
 |                                           Version                                            |  Released  |  EOL   | Only critical bug fixes (LTS) | Full |
 |:--------------------------------------------------------------------------------------------:|:----------:|:------:|:-----------------------------:|:----:|
-| [null](https://github.com/torrentpier/torrentpier/releases/tag/null) | null | | | ✅ |
+| [v2.8.8](https://github.com/torrentpier/torrentpier/releases/tag/v2.8.8) | 2025-10-21 | | | ✅ |
 | [v2.1.5-2025.06](https://github.com/torrentpier/torrentpier-lts/releases/tag/v2.1.5-2025.06) | 2025-06-25 | YES 💀 |                               |      |
 |           [v2.4.*](https://github.com/torrentpier/torrentpier/releases/tag/v2.4.13)          | 2025-08-30 | YES 💀 |                               |      |
 |           [v2.3.*](https://github.com/torrentpier/torrentpier/releases/tag/v2.3.1)           | 2023-03-18 | YES 💀 |                               |      |
