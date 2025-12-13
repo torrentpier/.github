@@ -7,9 +7,7 @@ Welcome to the TorrentPier organization 🐂. All your contributions are welcome
 ## 🌐 Helpful links
 
 - [Our forum](https://torrentpier.com/)
-- [Our Download Center](https://get-torrentpier.duckdns.org/)
-- [TorrentPier Demo](https://torrentpier.duckdns.org/)
-- [TorrentPier nightly builds](https://nightly.link/torrentpier/torrentpier/workflows/ci/master/TorrentPier-master)
+- [Documantation](https://docs.torrentpier.com/)
 
 ## 📊 Supported versions
 
@@ -20,6 +18,3 @@ Current major version with full support is v2.8.*
 | [v2.8.9](https://github.com/torrentpier/torrentpier/releases/tag/v2.8.9) | 2025-11-28 | | | ✅ |
 | [v2.1.5-2025.06](https://github.com/torrentpier/torrentpier-lts/releases/tag/v2.1.5-2025.06) | 2025-06-25 | YES 💀 |                               |      |
 |           [v2.4.*](https://github.com/torrentpier/torrentpier/releases/tag/v2.4.13)          | 2025-08-30 | YES 💀 |                               |      |
-|           [v2.3.*](https://github.com/torrentpier/torrentpier/releases/tag/v2.3.1)           | 2023-03-18 | YES 💀 |                               |      |
-|           [v2.2.*](https://github.com/torrentpier/torrentpier/releases/tag/v2.2.3)           | 2017-08-08 | YES 💀 |                               |      |
-|           [v2.1.*](https://github.com/torrentpier/torrentpier/releases/tag/v2.1.5)           | 2014-12-06 | YES 💀 |                               |      |
