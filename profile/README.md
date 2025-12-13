@@ -7,7 +7,7 @@ Welcome to the TorrentPier organization 🐂. All your contributions are welcome
 ## 🌐 Helpful links
 
 - [Our forum](https://torrentpier.com/)
-- [Documantation](https://docs.torrentpier.com/)
+- [Documentation](https://docs.torrentpier.com/)
 
 ## 📊 Supported versions
 
